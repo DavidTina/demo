@@ -11,9 +11,6 @@ class DemoController {
     String topic
 
     def index(String uuid){
-        log.info("uuid is ${uuid}")
-        log.info("params.uuid ${params.uuid}")
-        System.println("params.uuid ${uuid}")
         kafkaProducerService.send(topic, uuid, [demo: "demo", uuid: uuid])
         render "5"
     }

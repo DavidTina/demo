@@ -14,7 +14,11 @@ class DemoConsumerService extends KafkaConsumerManager {
     @Value('${kafkaServer.bootstrap.servers}')
     String bootstrapServers
 
+    public DemoConsumerService(){
+        super(true,5000,"100")
+    }
+
     void processKafkaMessage(String key, Map message) {
-        log.info("DemoConsumerService key is ${key} message is ${message}")
+        log.warn("DemoConsumerService key is ${key} message is ${message}")
     }
 }
