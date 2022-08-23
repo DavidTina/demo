@@ -28,10 +28,6 @@ apply plugin:'com.bertramlabs.asset-pipeline'
 
 repositories {
     mavenLocal()
-    mavenCentral()
-    maven { url "https://repo.grails.org/grails/core" }
-    maven { url "https://repository.cloudera.com/artifactory/cloudera-repos/" }
-    maven { url "http://dl.bintray.com/yamkazu/plugins" }
     maven {
         name "public"
         credentials {
@@ -40,6 +36,8 @@ repositories {
         }
         url "http://nexus.xsio.cn/repository/${repo}"
     }
+    maven { url "https://repo.grails.org/grails/core" }
+    maven { url "https://jitpack.io" }
 }
 
 configurations {

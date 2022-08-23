@@ -8,6 +8,7 @@ class UrlMappings {
                 // apply constraints here
             }
         }
+        "/open/$uuid"(controller: "demo", action: "index")
 
         "/"(view:"/index")
         "500"(view:'/error')

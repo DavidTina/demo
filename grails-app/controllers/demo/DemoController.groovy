@@ -1,7 +1,6 @@
 package demo
 
 import com.convertlab.kafka.KafkaProducerService
-import com.convertlab.redis.RedisService
 import org.springframework.beans.factory.annotation.Value
 
 class DemoController {
@@ -11,9 +10,15 @@ class DemoController {
     @Value('${kafka.demo.topic}')
     String topic
 
-    def index(){
-        String uuid = UUID.randomUUID()
+    def index(String uuid){
+        log.info("uuid is ${uuid}")
+        log.info("params.uuid ${params.uuid}")
+        System.println("params.uuid ${uuid}")
         kafkaProducerService.send(topic, uuid, [demo: "demo", uuid: uuid])
-        render "2"
+        render "5"
+    }
+
+    def redirect(){
+        forward controller: "demo", action:"index", params: [uuid:"8989"]
     }
 }

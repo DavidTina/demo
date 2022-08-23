@@ -91,6 +91,8 @@ management:
         jmx:
             unique-names: true
 
+server:
+    port: 8090
 ---
 grails:
     plugin:

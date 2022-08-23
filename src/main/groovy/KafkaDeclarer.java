@@ -2,7 +2,6 @@
 
 import com.convertlab.kafka.gen.KafkaTopicGenerator;
 import com.convertlab.kafka.gen.KafkaTopicGeneratorBuilder;
-import net.logstash.logback.encoder.org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +21,9 @@ public class KafkaDeclarer {
 
     Short defaultReplications = 1;
 
+    @Value("${kafkaServer.topicDeclarationFile:/kafka/topics.json}")
+    String kafkaTopicDeclarationFile;
+
 
     @Autowired
     Environment env;
@@ -32,7 +34,7 @@ public class KafkaDeclarer {
 
         KafkaTopicGeneratorBuilder generatorBuilder = new KafkaTopicGeneratorBuilder(kafkaServers)
                 .setDefaultReplicas(defaultReplications)
-                .setDevMode(ArrayUtils.contains(env.getActiveProfiles(), "development"));
+                .setDevMode(true);
 
         KafkaTopicGenerator generator = generatorBuilder.build();
         generator.doRun();

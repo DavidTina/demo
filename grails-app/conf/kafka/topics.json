@@ -5,12 +5,5 @@
       "demo"
     ],
     "partitions": 5
-  },
-  {
-    "name": "demo2",
-    "consumerServices": [
-      "demo"
-    ],
-    "partitions": 5
   }
 ]

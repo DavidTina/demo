@@ -1,6 +1,5 @@
-package demo
+package consumer
 
-import consumer.DemoConsumerService
 import grails.testing.services.ServiceUnitTest
 import spock.lang.Specification
 
