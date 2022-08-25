@@ -106,6 +106,7 @@ kafka:
     demo:
         topic: "demo"
         groupId: "demo_group"
+        otherGroupId: "demo2_group"
         numConsumers: 5
 redis:
     haMode: ${redis_haMode:standalone}
