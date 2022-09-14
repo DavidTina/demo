@@ -6,6 +6,7 @@ class Demo {
     String name
     Date dateCreated
     Date lastUpdated
+    boolean enableAbtest
 
     static constraints = {
     }
