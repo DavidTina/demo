@@ -1,8 +1,11 @@
 package demo
 
 import com.convertlab.kafka.KafkaProducerService
+import grails.converters.JSON
 import grails.rest.RestfulController
 import org.springframework.beans.factory.annotation.Value
+
+import javax.servlet.http.Cookie
 
 class DemoController extends RestfulController<Demo> {
     static responseFormats = ['json', 'xml']
@@ -21,14 +24,17 @@ class DemoController extends RestfulController<Demo> {
         Demo.get(id)
     }
 
-//    def newObject(){
+    def newObject(){
 //        def forTest = new Demo(
 //                name: "test23",
 //                enableAbtest: false
 //        )
 //        forTest.save()
-//        render forTest as JSON
-//    }
+        def forTest = ["Math":Math.random()]
+        def newCookie = new Cookie("test","3232")
+        response.addCookie(newCookie)
+        render forTest as JSON
+    }
 //
 //    def index(String uuid){
 ////        kafkaProducerService.send(topic, uuid, [demo: "demo", uuid: uuid])

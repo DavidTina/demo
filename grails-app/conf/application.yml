@@ -10,6 +10,7 @@ grails:
             events: false
     cors:
         enabled: true
+        allowCredentials: true
         allowedOrigins:
             - http://localhost:8080
             - http://localhost:8081
