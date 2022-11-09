@@ -99,6 +99,14 @@ management:
 
 server:
     port: 8090
+
+aws:
+    s3:
+        enable: ${aws_s3_enable:true}
+        region: ${aws_s3_region:cn-north-1}
+        accessKey: ${aws_s3_accessKey:AKIAQ2LY5SYVRBN3C72J}
+        secretKey: ${aws_s3_secretKey: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}
+        bucketName: ${aws_s3_bucketName:cnn-s3-rg-sma-prd}
 ---
 grails:
     plugin:

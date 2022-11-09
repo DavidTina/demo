@@ -38,6 +38,7 @@ repositories {
     }
     maven { url "https://repo.grails.org/grails/core" }
     maven { url "https://jitpack.io" }
+    mavenCentral()
 }
 
 configurations {
@@ -86,15 +87,15 @@ dependencies {
     }
     compile "org.grails.plugins:database-migration:3.1.0"
     developmentOnly("org.springframework.boot:spring-boot-devtools")
-    compile "org.springframework.boot:spring-boot-starter-logging"
-    compile "org.springframework.boot:spring-boot-autoconfigure"
+//    compile "org.springframework.boot:spring-boot-starter-logging"
+//    compile "org.springframework.boot:spring-boot-autoconfigure"
     compile "org.grails:grails-core"
-    compile "org.springframework.boot:spring-boot-starter-actuator"
-    compile "org.springframework.boot:spring-boot-starter-tomcat"
+//    compile "org.springframework.boot:spring-boot-starter-actuator"
+//    compile "org.springframework.boot:spring-boot-starter-tomcat"
     compile "org.springframework.boot:spring-boot-starter-web"
-    compile "org.springframework.boot:spring-boot-configuration-processor"
-    compile "org.springframework.boot:spring-boot-starter-data-redis"
-    compile "net.logstash.logback:logstash-logback-encoder:4.7"
+//    compile "org.springframework.boot:spring-boot-configuration-processor"
+//    compile "org.springframework.boot:spring-boot-starter-data-redis"
+    compile 'net.logstash.logback:logstash-logback-encoder:7.2'
     compile "org.grails:grails-web-boot"
     compile "org.grails:grails-logging"
     compile "org.grails:grails-plugin-rest"
@@ -124,11 +125,16 @@ dependencies {
     testCompile "org.mockito:mockito-core"
     testCompile "org.grails:grails-web-testing-support"
     testCompile "org.grails.plugins:geb"
-    testCompile "org.seleniumhq.selenium:selenium-remote-driver:3.14.0"
-    testCompile "org.seleniumhq.selenium:selenium-api:3.14.0"
-    testCompile "org.seleniumhq.selenium:selenium-support:3.14.0"
-    testRuntime "org.seleniumhq.selenium:selenium-chrome-driver:3.14.0"
-    testRuntime "org.seleniumhq.selenium:selenium-firefox-driver:3.14.0"
+//    testCompile "org.seleniumhq.selenium:selenium-remote-driver:3.14.0"
+//    testCompile "org.seleniumhq.selenium:selenium-api:3.14.0"
+//    testCompile "org.seleniumhq.selenium:selenium-support:3.14.0"
+//    testRuntime "org.seleniumhq.selenium:selenium-chrome-driver:3.14.0"
+//    testRuntime "org.seleniumhq.selenium:selenium-firefox-driver:3.14.0"
+    compile "com.amazonaws:aws-java-sdk-s3:1.12.261"
+    compile "com.amazonaws:aws-java-sdk-sts:1.12.261"
+    compile "com.amazonaws:aws-java-sdk-iam:1.12.261"
+    compile "com.amazonaws:aws-java-sdk-ec2:1.12.261"
+    compile "com.amazonaws:aws-java-sdk-dynamodb:1.12.261"
 }
 
 bootRun {

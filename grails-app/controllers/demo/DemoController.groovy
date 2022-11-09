@@ -15,6 +15,7 @@ class DemoController extends RestfulController<Demo> {
     }
 
     KafkaProducerService kafkaProducerService
+    AwsService awsService
 
     @Value('${kafka.demo.topic}')
     String topic
@@ -22,6 +23,18 @@ class DemoController extends RestfulController<Demo> {
     @Override
     protected Demo queryForResource(Serializable id){
         Demo.get(id)
+    }
+
+    def upload(){
+//        Part file = request.getPart('file')
+        File file = new File("/Users/zhangjun/Desktop/L3相关/2022-7月L3工单.xlsx")
+        awsService.upload([ossKey: UUID.randomUUID().toString().replaceAll("-", ""),file:file])
+        render "upload"
+    }
+
+    def list(){
+        awsService.listFile()
+        render "list"
     }
 
     def newObject(){
