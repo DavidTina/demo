@@ -18,7 +18,9 @@ class Demo2ConsumerService extends KafkaConsumerManager {
         super(true,1000,"100")
     }
 
-    void processKafkaMessage(String key, Map message) {
-        log.warn("otherGroupId DemoConsumerService key is ${key} message is ${message}")
+    void processKafkaMessage(Map message) {
+        message.each {
+            log.warn("otherGroupId Demo2ConsumerService key is ${it.key} message is ${it.value}")
+        }
     }
 }

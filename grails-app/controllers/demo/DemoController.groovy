@@ -4,6 +4,7 @@ import com.convertlab.kafka.KafkaProducerService
 import grails.converters.JSON
 import grails.rest.RestfulController
 import org.springframework.beans.factory.annotation.Value
+import kafka.ThrottleTopicBuilder
 
 import javax.servlet.http.Cookie
 
@@ -13,6 +14,9 @@ class DemoController extends RestfulController<Demo> {
     DemoController(){
         super(Demo)
     }
+
+    @Value('${kafkaServer.bootstrap.servers}')
+    String bootstrapServers
 
     KafkaProducerService kafkaProducerService
     AwsService awsService
@@ -49,12 +53,21 @@ class DemoController extends RestfulController<Demo> {
         render forTest as JSON
     }
 //
-//    def index(String uuid){
-////        kafkaProducerService.send(topic, uuid, [demo: "demo", uuid: uuid])
-//        render "5"
-//    }
+    def index(String uuid){
+        String throttleTopicName = ThrottleTopicBuilder.newBuilder()
+                .setBootstrapServers(bootstrapServers)
+                .setMaxPollRecords(5)
+                .setRateLimitPerSecond(5 / 100)
+                .setTopicName("template-message-batch-send-by-spark-1")
+                .setMessageProcessor({ key, msg ->
+                    log.warn("ThrottleTopicBuilder get message key is ${key}")
+                    kafkaProducerService.send(topic, key, msg)
+                }).build()
+        kafkaProducerService.send(throttleTopicName,uuid,[demo: "demo", uuid: uuid])
+        render "5"
+    }
 //
-//    def redirect(){
-//        forward controller: "demo", action:"index", params: [uuid:"8989"]
-//    }
+    def redirect(){
+        forward controller: "demo", action:"index", params: [uuid:UUID.randomUUID().toString().replace("-","")]
+    }
 }
