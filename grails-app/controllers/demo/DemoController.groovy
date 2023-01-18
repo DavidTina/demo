@@ -70,4 +70,10 @@ class DemoController extends RestfulController<Demo> {
     def redirect(){
         forward controller: "demo", action:"index", params: [uuid:UUID.randomUUID().toString().replace("-","")]
     }
+
+    def listDemo(){
+        def listDemo = Demo.list()
+        log.info("listDemo ${listDemo as JSON}")
+        render listDemo as JSON
+    }
 }

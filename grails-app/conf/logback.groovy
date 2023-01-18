@@ -34,4 +34,4 @@ if (Environment.isDevelopmentMode() && targetDir != null) {
     }
     logger("StackTrace", WARN, ['FULL_STACKTRACE'], false)
 }
-root(WARN, ['STDOUT'])
+root(INFO, ['STDOUT'])
