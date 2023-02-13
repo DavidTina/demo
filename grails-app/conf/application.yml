@@ -122,6 +122,9 @@ kafka:
         groupId: "demo_group"
         otherGroupId: "demo2_group"
         numConsumers: 5
+
+chatgpt:
+    api-key: ENC:pthOq8RvRWXWXkQALqInYH/3GHsV5zA7qI5bbraNSuQceBXCnPyZOBx0bIc6c74fCQhENdythZBtaFb3PU+Qpg==
 redis:
     haMode: ${redis_haMode:standalone}
     enableSsl: ${redis_enableSsl:false}

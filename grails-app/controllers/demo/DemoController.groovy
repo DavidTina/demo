@@ -20,6 +20,7 @@ class DemoController extends RestfulController<Demo> {
 
     KafkaProducerService kafkaProducerService
     AwsService awsService
+    def chatgptService
 
     @Value('${kafka.demo.topic}')
     String topic
@@ -27,6 +28,12 @@ class DemoController extends RestfulController<Demo> {
     @Override
     protected Demo queryForResource(Serializable id){
         Demo.get(id)
+    }
+
+    def aiTest(){
+        String question = params.question
+        def response = chatgptService.sendMessage(question)
+        render status: 200, text: response
     }
 
     def upload(){
