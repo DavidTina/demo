@@ -9,7 +9,6 @@ import org.apache.poi.ss.usermodel.WorkbookFactory
 import org.springframework.beans.factory.annotation.Value
 
 import javax.servlet.http.Cookie
-import java.text.SimpleDateFormat
 
 class DemoController extends RestfulController<Demo> {
     static responseFormats = ['json', 'xml']
@@ -83,7 +82,7 @@ class DemoController extends RestfulController<Demo> {
     }
 
     def readFileAndUpload() {
-        File file = new File("/Users/zhangjun/Desktop/工作簿1.xlsx")
+        File file = new File("/Users/zhangjun/Desktop/工作簿2.xlsx")
         Workbook wb
         def header = []
         def data = []
@@ -92,16 +91,12 @@ class DemoController extends RestfulController<Demo> {
         try {
             wb = WorkbookFactory.create(file)
             def sheet = wb.getSheetAt(0)
-            log.info("====== meta sheet size : ${sheet.size()}===========")
-            def sdf = new SimpleDateFormat()
             sheet.forEach { row ->
                 if (row.getRowNum() == 0) {
                     row.forEach { cell ->
                         header << cell.getStringCellValue()
                     }
                 } else {
-                    def component1 = row.getCell(12)?.getStringCellValue()
-                    def component2 = row.getCell(13)?.getStringCellValue()
                     def _arr = [
                             issue_key     : row.getCell(0)?.getStringCellValue(),
                             service_aid_id: row.getCell(2)?.getStringCellValue(),
@@ -112,7 +107,10 @@ class DemoController extends RestfulController<Demo> {
                             priority      : row.getCell(9)?.getStringCellValue(),
                             resolve       : row.getCell(10)?.getStringCellValue(),
                             customer      : row.getCell(11)?.getStringCellValue(),
+                            quality       : row.getCell(15)?.getStringCellValue(),
                     ]
+                    def component1 = row.getCell(12)?.getStringCellValue()
+                    def component2 = row.getCell(13)?.getStringCellValue()
                     if (_arr.assignee) {
                         identityList << _arr.assignee
                     }

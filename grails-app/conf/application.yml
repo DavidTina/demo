@@ -166,5 +166,5 @@ dataSource:
         defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
         initSQL: "SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;"
 DmHub:
-    appid: "cl014418b414873a4"
-    secret: "ffcb95a1ff86d3cef7633faaf7c08079a455fd91"
+    appid: "cl030f18b662c08f2"
+    secret: "6dadbac3c3857ffaa0b562010ed4eb0405727343"
