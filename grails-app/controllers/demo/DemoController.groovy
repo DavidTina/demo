@@ -3,15 +3,18 @@ package demo
 import com.convertlab.kafka.KafkaProducerService
 import grails.converters.JSON
 import grails.rest.RestfulController
-import org.springframework.beans.factory.annotation.Value
 import kafka.ThrottleTopicBuilder
+import org.apache.poi.ss.usermodel.Workbook
+import org.apache.poi.ss.usermodel.WorkbookFactory
+import org.springframework.beans.factory.annotation.Value
 
 import javax.servlet.http.Cookie
+import java.text.SimpleDateFormat
 
 class DemoController extends RestfulController<Demo> {
     static responseFormats = ['json', 'xml']
 
-    DemoController(){
+    DemoController() {
         super(Demo)
     }
 
@@ -21,46 +24,47 @@ class DemoController extends RestfulController<Demo> {
     KafkaProducerService kafkaProducerService
     AwsService awsService
     def chatgptService
+    DmAccessApiService dmAccessApiService
 
     @Value('${kafka.demo.topic}')
     String topic
 
     @Override
-    protected Demo queryForResource(Serializable id){
+    protected Demo queryForResource(Serializable id) {
         Demo.get(id)
     }
 
-    def aiTest(){
+    def aiTest() {
         String question = params.question
         def response = chatgptService.sendMessage(question)
         render status: 200, text: response
     }
 
-    def upload(){
+    def upload() {
 //        Part file = request.getPart('file')
         File file = new File("/Users/zhangjun/Desktop/L3相关/2022-7月L3工单.xlsx")
-        awsService.upload([ossKey: UUID.randomUUID().toString().replaceAll("-", ""),file:file])
+        awsService.upload([ossKey: UUID.randomUUID().toString().replaceAll("-", ""), file: file])
         render "upload"
     }
 
-    def list(){
+    def list() {
         awsService.listFile()
         render "list"
     }
 
-    def newObject(){
+    def newObject() {
 //        def forTest = new Demo(
 //                name: "test23",
 //                enableAbtest: false
 //        )
 //        forTest.save()
-        def forTest = ["Math":Math.random()]
-        def newCookie = new Cookie("test","3232")
+        def forTest = ["Math": Math.random()]
+        def newCookie = new Cookie("test", "3232")
         response.addCookie(newCookie)
         render forTest as JSON
     }
 //
-    def index(String uuid){
+    def index(String uuid) {
         String throttleTopicName = ThrottleTopicBuilder.newBuilder()
                 .setBootstrapServers(bootstrapServers)
                 .setMaxPollRecords(5)
@@ -70,17 +74,92 @@ class DemoController extends RestfulController<Demo> {
                     log.warn("ThrottleTopicBuilder get message key is ${key}")
                     kafkaProducerService.send(topic, key, msg)
                 }).build()
-        kafkaProducerService.send(throttleTopicName,uuid,[demo: "demo", uuid: uuid])
+        kafkaProducerService.send(throttleTopicName, uuid, [demo: "demo", uuid: uuid])
         render "5"
     }
 //
-    def redirect(){
-        forward controller: "demo", action:"index", params: [uuid:UUID.randomUUID().toString().replace("-","")]
+    def redirect() {
+        forward controller: "demo", action: "index", params: [uuid: UUID.randomUUID().toString().replace("-", "")]
     }
 
-    def listDemo(){
-        def listDemo = Demo.list()
-        log.info("listDemo ${listDemo as JSON}")
-        render listDemo as JSON
+    def readFileAndUpload() {
+        File file = new File("/Users/zhangjun/Desktop/工作簿1.xlsx")
+        Workbook wb
+        def header = []
+        def data = []
+        Set identityList = []
+        Set tagList = []
+        try {
+            wb = WorkbookFactory.create(file)
+            def sheet = wb.getSheetAt(0)
+            log.info("====== meta sheet size : ${sheet.size()}===========")
+            def sdf = new SimpleDateFormat()
+            sheet.forEach { row ->
+                if (row.getRowNum() == 0) {
+                    row.forEach { cell ->
+                        header << cell.getStringCellValue()
+                    }
+                } else {
+                    def component1 = row.getCell(12)?.getStringCellValue()
+                    def component2 = row.getCell(13)?.getStringCellValue()
+                    def _arr = [
+                            issue_key     : row.getCell(0)?.getStringCellValue(),
+                            service_aid_id: row.getCell(2)?.getStringCellValue(),
+                            summary       : row.getCell(3)?.getStringCellValue(),
+                            assignee      : row.getCell(4)?.getStringCellValue(),
+                            created       : row.getCell(6)?.getLocalDateTimeCellValue().minusHours(8),
+                            develived     : row.getCell(7)?.getNumericCellValue(),
+                            priority      : row.getCell(9)?.getStringCellValue(),
+                            resolve       : row.getCell(10)?.getStringCellValue(),
+                            customer      : row.getCell(11)?.getStringCellValue(),
+                    ]
+                    if (_arr.assignee) {
+                        identityList << _arr.assignee
+                    }
+                    if (component1) {
+                        def draftComponent1 = ""
+                        if (component1 == "API2.0") {
+                            draftComponent1 = "API2"
+                        } else if (component1 == "ETL  Tool") {
+                            draftComponent1 = "EtlTool"
+                        } else if (component1 == "OPEN API") {
+                            draftComponent1 = "OpenApi"
+                        } else if (component1 == "impala-query") {
+                            draftComponent1 = "ImpalaQuery"
+                        } else {
+                            draftComponent1 = component1.replace(" ", "").replace("-", "").replace("_", "").replace(":", "")
+                        }
+                        tagList << draftComponent1
+                        _arr << ["component1": draftComponent1]
+                    }
+                    if (component2) {
+                        def draftComponent2 = ""
+                        if (component2 == "API2.0") {
+                            draftComponent2 = "API2"
+                        } else if (component2 == "ETL  Tool") {
+                            draftComponent2 = "EtlTool"
+                        } else if (component2 == "OPEN API") {
+                            draftComponent2 = "OpenApi"
+                        } else if (component2 == "impala-query") {
+                            draftComponent2 = "ImpalaQuery"
+                        } else {
+                            draftComponent2 = component2.replace(" ", "").replace("-", "").replace("_", "").replace(":", "")
+                        }
+                        tagList << draftComponent2
+                        _arr << ["component2": draftComponent2]
+                    }
+                    data << _arr
+                }
+            }
+
+        } catch (Exception e) {
+            log.error(e)
+        } finally {
+            wb.close()
+            dmAccessApiService.uploadEventToDMhub(data, identityList, tagList)
+        }
+
+        def res = ["message": "sucess"]//dmAccessApiService.getEventMetaInfo()
+        render res as JSON
     }
 }

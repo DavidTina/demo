@@ -1,6 +1,7 @@
 package consumer
 
 import com.convertlab.kafka.KafkaConsumerManager
+import demo.DmAccessApiService
 import org.springframework.beans.factory.annotation.Value
 
 class DemoConsumerService extends KafkaConsumerManager {
@@ -14,13 +15,14 @@ class DemoConsumerService extends KafkaConsumerManager {
     @Value('${kafkaServer.bootstrap.servers}')
     String bootstrapServers
 
-    public DemoConsumerService(){
-        super(true,1000,"100")
+    DmAccessApiService dmAccessApiService
+
+    public DemoConsumerService() {
+//        super(true,1000,"100")
     }
 
     void processKafkaMessage(String key, Map message) {
-        message.each {
-            log.warn("otherGroupId DemoConsumerService key is ${it.key} message is ${it.value}")
-        }
+        log.warn("otherGroupId DemoConsumerService key is ${key} message is ${message}")
+//        dmAccessApiService.createCustomerEventByIdentity(message)
     }
 }

@@ -165,3 +165,6 @@ dataSource:
         jdbcInterceptors: ConnectionState
         defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
         initSQL: "SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;"
+DmHub:
+    appid: "cl014418b414873a4"
+    secret: "ffcb95a1ff86d3cef7633faaf7c08079a455fd91"

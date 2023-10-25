@@ -14,13 +14,11 @@ class Demo2ConsumerService extends KafkaConsumerManager {
     @Value('${kafkaServer.bootstrap.servers}')
     String bootstrapServers
 
-    public Demo2ConsumerService(){
-        super(true,1000,"100")
-    }
+//    public Demo2ConsumerService(){
+//        super(true,100,"10")
+//    }
 
     void processKafkaMessage(Map message) {
-        message.each {
-            log.warn("otherGroupId Demo2ConsumerService key is ${it.key} message is ${it.value}")
-        }
+        log.warn("otherGroupId Demo2ConsumerService key is ${message.key} message is ${message.value}")
     }
 }

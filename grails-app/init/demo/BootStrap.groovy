@@ -3,6 +3,7 @@ package demo
 import com.convertlab.redis.RedisService
 import consumer.Demo2ConsumerService
 import consumer.DemoConsumerService
+import org.joda.time.DateTimeZone
 
 class BootStrap {
 
@@ -17,6 +18,8 @@ class BootStrap {
         kafkaDeclarer.run()
         demoConsumerService.start()
         demo2ConsumerService.start()
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
+        DateTimeZone.setDefault(DateTimeZone.UTC)
     }
     def destroy = {
         demoConsumerService.shutdown()

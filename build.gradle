@@ -103,6 +103,8 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-web"
 //    compile "org.springframework.boot:spring-boot-configuration-processor"
 //    compile "org.springframework.boot:spring-boot-starter-data-redis"
+    compile "org.apache.poi:poi"
+    compile "org.apache.poi:poi-ooxml"
     compile 'net.logstash.logback:logstash-logback-encoder:7.2'
     compile "org.grails:grails-web-boot"
     compile "org.grails:grails-logging"
