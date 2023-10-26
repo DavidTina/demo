@@ -115,36 +115,14 @@ class DemoController extends RestfulController<Demo> {
                         identityList << _arr.assignee
                     }
                     if (component1) {
-                        def draftComponent1 = ""
-                        if (component1 == "API2.0") {
-                            draftComponent1 = "API2"
-                        } else if (component1 == "ETL  Tool") {
-                            draftComponent1 = "EtlTool"
-                        } else if (component1 == "OPEN API") {
-                            draftComponent1 = "OpenApi"
-                        } else if (component1 == "impala-query") {
-                            draftComponent1 = "ImpalaQuery"
-                        } else {
-                            draftComponent1 = component1.replace(" ", "").replace("-", "").replace("_", "").replace(":", "")
-                        }
+                        def draftComponent1 = dmAccessApiService.filterTags(component1)
                         tagList << draftComponent1
                         _arr << ["component1": draftComponent1]
                     }
                     if (component2) {
-                        def draftComponent2 = ""
-                        if (component2 == "API2.0") {
-                            draftComponent2 = "API2"
-                        } else if (component2 == "ETL  Tool") {
-                            draftComponent2 = "EtlTool"
-                        } else if (component2 == "OPEN API") {
-                            draftComponent2 = "OpenApi"
-                        } else if (component2 == "impala-query") {
-                            draftComponent2 = "ImpalaQuery"
-                        } else {
-                            draftComponent2 = component2.replace(" ", "").replace("-", "").replace("_", "").replace(":", "")
-                        }
+                        def draftComponent2 = dmAccessApiService.filterTags(component2)
                         tagList << draftComponent2
-                        _arr << ["component2": draftComponent2]
+                        _arr << ["component1": draftComponent2]
                     }
                     data << _arr
                 }

@@ -217,4 +217,20 @@ class DmAccessApiService {
             kafkaProducerService.send(topic, customerEventData.identityValue, customerEventData)
         }
     }
+
+    def filterTags(component){
+        def draftComponent
+        if (component == "API2.0") {
+            draftComponent = "API2"
+        } else if (component == "ETL  Tool") {
+            draftComponent = "EtlTool"
+        } else if (component == "OPEN API") {
+            draftComponent = "OpenApi"
+        } else if (component == "impala-query") {
+            draftComponent = "ImpalaQuery"
+        } else {
+            draftComponent = component2.replace(" ", "").replace("-", "").replace("_", "").replace(":", "")
+        }
+        return draftComponent
+    }
 }
