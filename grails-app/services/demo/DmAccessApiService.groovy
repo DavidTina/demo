@@ -46,7 +46,7 @@ class DmAccessApiService {
         try {
             serializer = (MessageSerializer<Map>) Class.forName(MessageSerializer.serializerClass).newInstance();
         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-            println("instancing KafkaProducerService failed.");
+            log.error("instancing KafkaProducerService failed.",e)
         }
     }
 

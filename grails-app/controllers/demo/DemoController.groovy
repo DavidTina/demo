@@ -134,8 +134,7 @@ class DemoController extends RestfulController<Demo> {
             wb.close()
             dmAccessApiService.uploadEventToDMhub(data, identityList, tagList)
         }
-
-        def res = ["message": "sucess"]//dmAccessApiService.getEventMetaInfo()
+        def res = ["message": "sucess"]
         render res as JSON
     }
 }
