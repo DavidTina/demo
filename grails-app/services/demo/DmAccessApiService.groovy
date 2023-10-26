@@ -46,7 +46,7 @@ class DmAccessApiService {
         try {
             serializer = (MessageSerializer<Map>) Class.forName(MessageSerializer.serializerClass).newInstance();
         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-            log.error("instancing KafkaProducerService failed.",e)
+            println("instancing KafkaProducerService failed.");
         }
     }
 
@@ -128,24 +128,24 @@ class DmAccessApiService {
     def uploadEventToDMhub(data, createCustomerData, tagList) {
 //        def groupResult = createL3Group()
 //        def customnerIdList = []
-//        createCustomerData.each { value ->
-//            def findCustomerResult = findCustomerByIdentity("c_l3", value)
-//            if (!findCustomerResult?.id) {
-//                def customerData = [
-//                        "customer": [
-//                                "name": value,
-//                        ],
-//                        "identity": [
-//                                "type" : "c_l3",
-//                                "value": value,
-//                                "name" : "Conbertlab-L3"
-//                        ]
-//                ]
-//                def createCustomerResult = createCustomerByIdentity(customerData)
-//                customnerIdList << createCustomerResult.id
-//            }
-//            customnerIdList << findCustomerResult.id
-//        }
+        createCustomerData.each { value ->
+            def findCustomerResult = findCustomerByIdentity("c_l3", value)
+            if (!findCustomerResult?.id) {
+                def customerData = [
+                        "customer": [
+                                "name": value,
+                        ],
+                        "identity": [
+                                "type" : "c_l3",
+                                "value": value,
+                                "name" : "Conbertlab-L3"
+                        ]
+                ]
+                def createCustomerResult = createCustomerByIdentity(customerData)
+                customnerIdList << createCustomerResult.id
+            }
+            customnerIdList << findCustomerResult.id
+        }
 //        addMemberToGroup(customnerIdList)
 //        def creatTagList = []
 //        tagList.each { value ->
@@ -153,7 +153,7 @@ class DmAccessApiService {
 //        }
 //        callInterApi("https://app.convertlab.com/impala/query_content_tag?group=-1&page=1&rows=130&q=&sidx=date_created&sord=desc", [:], cookie, HttpMethod.GET)
 //        callInterApi("https://app.convertlab.com/contenttags/batchCreate", [group: 0, tags: creatTagList], cookie, HttpMethod.POST)
-//        def filterData = this.filterWorkData(data)
+        def filterData = this.filterWorkData(data)
     }
 
     def callInterApi(url, request, cookie, callMethod = HttpMethod.GET) {
@@ -214,7 +214,7 @@ class DmAccessApiService {
             if (item?.component2) {
                 customerEventData.tagGroup.put(item?.component2, 0)
             }
-            kafkaProducerService.send(topic, customerEventData.identityValue, customerEventData)
+//            kafkaProducerService.send(topic, customerEventData.identityValue, customerEventData)
         }
     }
 
@@ -229,7 +229,7 @@ class DmAccessApiService {
         } else if (component == "impala-query") {
             draftComponent = "ImpalaQuery"
         } else {
-            draftComponent = component2.replace(" ", "").replace("-", "").replace("_", "").replace(":", "")
+            draftComponent = component.replace(" ", "").replace("-", "").replace("_", "").replace(":", "")
         }
         return draftComponent
     }

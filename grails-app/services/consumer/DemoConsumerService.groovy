@@ -23,6 +23,6 @@ class DemoConsumerService extends KafkaConsumerManager {
 
     void processKafkaMessage(String key, Map message) {
         log.warn("otherGroupId DemoConsumerService key is ${key} message is ${message}")
-        dmAccessApiService.createCustomerEventByIdentity(message)
+//        dmAccessApiService.createCustomerEventByIdentity(message)
     }
 }
