@@ -137,4 +137,17 @@ class DemoController extends RestfulController<Demo> {
         def res = ["message": "sucess"]
         render res as JSON
     }
+
+
+    def updateCustomer(){
+        def mock = ["identities":[
+                ["name":null,"type":"mobile","value":"13639293029"],
+                ["name":null,"type":"wechat","value":"oEpQu1BCquMEf_HjF87iiBDb7G34"],
+                ["name":null,"type":"wechat-unionid","value":"oCrBm0heJuzivvQLmAr_m1k4yXpk"]
+        ],
+                "customer":["name":"刘流，电话，13639293029","mobile":"13639293029"]
+        ]
+        def result = dmAccessApiService.updateCustomer(mock)
+        render result as JSON
+    }
 }

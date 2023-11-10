@@ -95,6 +95,13 @@ class DmAccessApiService {
         return result
     }
 
+    def updateCustomer(customerData) {
+        def token = this.getToken()
+        def result = HttpClient.postForObject("${baseUrl}/v2/customerService/extendedSave?autoMerge=true&targetCustomerStrategy=identityFirst&access_token=${token}", customerData)
+        log.info("createCustomerByIdentity:${result}")
+        return result
+    }
+
     def createCustomerEventByIdentity(eventData) {
         def token = this.getToken()
         def result = HttpClient.postForObject("${baseUrl}v2/customerEvents?access_token=${token}", eventData)
